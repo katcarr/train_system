@@ -35,5 +35,21 @@ class Station
     DB.exec("DELETE FROM stations WHERE id = #{@id};")
   end
 
+  define_method(:lines) do
+    line_ids = []
+    connection_results = DB.exec("SELECT * FROM connections WHERE station_id = #{@id};")
+    connection_results.each() do |connection|
+      line_ids.push(connection.fetch("line_id").to_i())
+    end
+
+    lines = []
+    line_ids.each() do |line_id|
+      line_result = DB.exec("SELECT * FROM lines WHERE id = #{line_id} ;")
+      id = line_result.first().fetch("id").to_i()
+      line_name = line_result.first().fetch('name')
+      lines.push(Line.new({:name => line_name, :id => id}))
+    end
+    lines
+  end
 
 end

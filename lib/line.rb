@@ -35,5 +35,6 @@ class Line
   define_method(:delete) do
     DB.exec("DELETE FROM lines WHERE id = #{@id};")
   end
+  
 
 end
