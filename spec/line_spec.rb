@@ -56,4 +56,20 @@ describe('Line') do
     end
   end
 
+  describe("#stations") do
+    it("will return all stations that the line object stops at") do
+      test_line1 = Line.new({:name => "Blue"})
+      test_line1.save()
+      test_station1 = Station.new({:name =>"Rose Quarter"})
+      test_station1.save()
+      test_connection1 = Connection.new({:line_id => test_line1.id(), :station_id => test_station1.id()})
+      test_connection1.save()
+      test_station2 = Station.new({:name =>"Pioneer Square"})
+      test_station2.save()
+      test_connection2 = Connection.new({:line_id => test_line1.id(), :station_id => test_station2.id()})
+      test_connection2.save()
+      expect(test_line1.stations()).to(eq([test_station1, test_station2]))
+    end
+  end
+
 end
